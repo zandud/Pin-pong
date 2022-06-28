@@ -13,6 +13,8 @@ class GameSprite(sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.w = w
+        self.h = h
     def draw(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 class Player(GameSprite):
@@ -35,13 +37,15 @@ class Ball(GameSprite):
         self.dirX = choice(spisok)
         self.dirY = choice(spisok)
     def auto_move(self):
+        global finish
         self.rect.x += self.speed * self.dirX
         self.rect.y += self.speed * self.dirY
         if self.rect.y < 0:
             self.dirY *= -1
-        elif self.rect.y > up - 30:
+        elif self.rect.y > up - self.h:
             self.dirY *= -1 
-
+        if self.rect.x < 0 or self.rect.x > wid - self.w:
+            finish = True
 ball = Ball(int(wid/2), int(up/2), 'res/ball.png', 3, 30, 30)
 rocket1 = Player(int(wid/10), int(up/2), 'res/right-rocket.png', 7, 120, 120)
 rocket2 = Player(wid-(int(wid/7)), int(up/2), 'res/left-rocket.png', 7, 120, 120)
@@ -49,7 +53,8 @@ font.init()
 
 clock = time.Clock()
 game = True
-finish = False 
+finish = False
+win = font.Font(None, 100).render('YOU LOSE!!!', True, (70, 0, 0))
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -64,21 +69,16 @@ while game:
     rocket1.draw()
     rocket2.draw()
     if finish == False:
-        # if sprite.collide_rect(rocket):
-        #     kick.play()
-        #     finish = True
-        # if sprite.collide_rect(rocket):
-        #     money.play()
-        #     finish = True
-        #     win = font.SysFont('Verdana', 100).render('YOU WIN!!!', True, (6, 246, 167))
+        if sprite.collide_rect(rocket1, ball) or sprite.collide_rect(rocket2, ball):
+            ball.dirX *= -1
         ball.auto_move()
         rocket2.move2()
         rocket1.move1()
     else:
-        # window.blit(win, (int(wid/2-150), int(up/2-100)))
+        window.blit(win, (int(wid/2-150), int(up/2-100)))
         keys_pressed = key.get_pressed()
         if keys_pressed[K_SPACE]:
             finish = False
-
+            ball = Ball(int(wid/2), int(up/2), 'res/ball.png', 3, 30, 30)
     display.update()
     clock.tick(120)
