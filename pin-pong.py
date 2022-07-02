@@ -30,13 +30,13 @@ def mainloop():
             # Возможность перезапуска:
             keys_pressed = key.get_pressed()
             if keys_pressed[K_SPACE]:
-                ball = Ball(int(wid/2), int(up/2), 'res/ball.png', int(2*(wid/up)), int(18*(wid/up)), int(18*(wid/up)))
+                ball = Ball(int(wid/2), int(up/2), 'res/ball.png', 8*scale, 30*scale, 30*scale)
         display.update()
         clock.tick(120)
 
 background = transform.scale(image.load('res/sky.png'), (wid, up))
-ball = Ball(int(wid/2), int(up/2), 'res/ball.png', int(2*(wid/up)), int(18*(wid/up)), int(18*(wid/up)))
-left_rocket = Player(25, int(up/2), 'res/right-rocket.png', int(4*(wid/up)), int(70*(wid/up)), int(70*(wid/up)))
-right_rocket = Player(wid-25-120, int(up/2), 'res/left-rocket.png', int(4*(wid/up)), int(70*(wid/up)), int(70*(wid/up)))
+ball = Ball(int(wid/2), int(up/2), 'res/ball.png', 8*scale, 30*scale, 30*scale)
+left_rocket = Player(25, int(up/2), 'res/right-rocket.png', 8*scale, 120*scale, 120*scale)
+right_rocket = Player(wid-25-120*scale, int(up/2), 'res/left-rocket.png', 8*scale, 120*scale, 120*scale)
 
 mainloop()

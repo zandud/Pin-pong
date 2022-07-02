@@ -3,6 +3,10 @@ from setup import *
 class GameSprite(sprite.Sprite):
     def __init__(self, x, y, file_name, speed, w, h):
         super().__init__()
+        x = round(x)
+        y = round(y)
+        w = round(w)
+        h = round(h)
         self.image = transform.scale(image.load(file_name), (w, h))
         self.speed = speed
         self.rect = self.image.get_rect()
